@@ -32,11 +32,9 @@ var _createMounted = require('./createMounted');
 
 var _createMounted2 = _interopRequireDefault(_createMounted);
 
-var _prettier = require('prettier');
-
-var _prettier2 = _interopRequireDefault(_prettier);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import prettier from 'prettier';
 
 var readConfig = function readConfig() {
     var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -71,11 +69,38 @@ var readConfig = function readConfig() {
     var page = (0, _createPage2.default)(name, code, components, state, mountFunctionCode.importCode, functionTemplateCode.importCode, constructorCode, formValueInit, mountedCode);
     var demo = {
         getData: function getData() {
+            // return {
+            //     reactCode: prettier.format(page),
+            //     mountFunctionCode: prettier.format(mountFunctionCode.jsCode),
+            //     functionTemplateCode: prettier.format(functionTemplateCode.jsCode),
+            // }
             return {
-                reactCode: _prettier2.default.format(page),
-                mountFunctionCode: _prettier2.default.format(mountFunctionCode.jsCode),
-                functionTemplateCode: _prettier2.default.format(functionTemplateCode.jsCode)
+                reactCode: page,
+                mountFunctionCode: mountFunctionCode.jsCode,
+                functionTemplateCode: functionTemplateCode.jsCode
             };
+        },
+        getFiles: function getFiles() {
+            var files = [];
+            if (page) {
+                files.push({
+                    name: name + '.jsx',
+                    code: page
+                });
+            }
+            if (functionTemplateCode.exports.length) {
+                files.push({
+                    name: name + '._functionTemplate.js',
+                    code: functionTemplateCode.jsCode
+                });
+            }
+            if (mountFunctionCode.exports.length) {
+                files.push({
+                    name: name + '._mountFunction.js',
+                    code: mountFunctionCode.jsCode
+                });
+            }
+            return files;
         },
         download: function download() {
             console.log("test");
