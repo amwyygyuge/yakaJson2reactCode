@@ -176,8 +176,8 @@ var ele2react = function ele2react(eles) {
  * @returns {Array} state 收集的state
  * @returns {Array} components 收集的所使用组件
  */
-var createRender = function createRender(yakaConfig) {
-    var layout = yakaConfig.layout;
+var createRender = function createRender() {
+    var layout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
     var _ele2react = ele2react(layout),
         code = _ele2react.code,
