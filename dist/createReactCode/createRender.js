@@ -130,11 +130,7 @@ var ele2react = function ele2react(eles) {
             props = item.props;
 
         if (REX.test(ele[0])) {
-            if (!components.some(function (item) {
-                return item === ele;
-            })) {
-                components.push(ele);
-            }
+            components.push(ele);
         }
 
         var _readProps = readProps(props),
@@ -184,6 +180,15 @@ var createRender = function createRender() {
         state = _ele2react.state,
         components = _ele2react.components;
 
-    return { code: "<div>" + code + "</div>", state: state, components: components };
+    var _components = [];
+    // 去重处理
+    components.forEach(function (item) {
+        if (!_components.find(function (_item) {
+            return _item === item;
+        })) {
+            _components.push(item);
+        }
+    });
+    return { code: "<div>" + code + "</div>", state: state, components: _components };
 };
 exports.default = createRender;
